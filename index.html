@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You, My Love 💕</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&amp;family=Quicksand:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-romantic {
+      font-family: 'Dancing Script', cursive;
+    }
+    
+    .font-body {
+      font-family: 'Quicksand', sans-serif;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 107, 129, 0.6)); }
+      50% { filter: drop-shadow(0 0 25px rgba(255, 107, 129, 0.9)); }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes heart-beat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.15); }
+    }
+    
+    @keyframes slide-up-player {
+      from { opacity: 0; transform: translateY(120px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .animate-float-delay {
+      animation: float 6s ease-in-out infinite;
+      animation-delay: 2s;
+    }
+    
+    .animate-pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    .animate-sparkle {
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    
+    .animate-slide-up {
+      animation: slide-up 1s ease-out forwards;
+    }
+    
+    .animate-heart-beat {
+      animation: heart-beat 1.5s ease-in-out infinite;
+    }
+    
+    .animate-slide-up-player {
+      animation: slide-up-player 0.6s ease-out forwards;
+    }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-700 { animation-delay: 0.7s; }
+    .delay-1000 { animation-delay: 1s; }
+    .delay-1500 { animation-delay: 1.5s; }
+    
+    .sparkle-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, #fff 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .hearts-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    
+    .floating-heart {
+      position: absolute;
+      opacity: 0.15;
+      animation: float 8s ease-in-out infinite;
+    }
+    
+    .card-container {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 32rem;
+    }
+    
+    .card {
+      transition: transform 0.05s ease-out;
+      transform-style: preserve-3d;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #ff6b81 0%, #ff4757 50%, #ff6b81 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .love-button {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .love-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .love-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .music-player-card {
+      background: linear-gradient(135deg, rgba(255, 107, 129, 0.15) 0%, rgba(255, 71, 87, 0.15) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 107, 129, 0.3);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full font-body">
+  <div id="app" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe0e6 50%, #ffd1dc 100%);"><!-- Floating Hearts Background -->
+   <div class="hearts-bg">
+    <svg class="floating-heart" style="left: 5%; top: 10%; width: 40px;" viewbox="0 0 24 24" fill="#ff6b81"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="floating-heart" style="left: 85%; top: 15%; width: 30px; animation-delay: 1s;" viewbox="0 0 24 24" fill="#ff4757"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="floating-heart" style="left: 15%; top: 70%; width: 25px; animation-delay: 2s;" viewbox="0 0 24 24" fill="#ff6b81"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="floating-heart" style="left: 90%; top: 60%; width: 35px; animation-delay: 3s;" viewbox="0 0 24 24" fill="#ffb8c6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="floating-heart" style="left: 50%; top: 85%; width: 28px; animation-delay: 4s;" viewbox="0 0 24 24" fill="#ff6b81"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+   </div><!-- Sparkles -->
+   <div class="sparkle-container">
+    <div class="sparkle animate-sparkle" style="left: 10%; top: 20%;"></div>
+    <div class="sparkle animate-sparkle delay-300" style="left: 80%; top: 30%;"></div>
+    <div class="sparkle animate-sparkle delay-500" style="left: 20%; top: 60%;"></div>
+    <div class="sparkle animate-sparkle delay-700" style="left: 70%; top: 70%;"></div>
+    <div class="sparkle animate-sparkle delay-1000" style="left: 40%; top: 40%;"></div>
+   </div><!-- Envelope Screen -->
+   <div id="envelope-screen" class="relative z-10 min-h-full flex flex-col items-center justify-center px-4 py-8">
+    <div class="animate-slide-up text-center mb-8">
+     <h1 class="font-romantic text-5xl md:text-6xl text-rose-500 mb-4">Surat Untukmu</h1>
+     <p class="text-rose-400 text-lg">Dari orang yang sangat menyayangimu 💌</p>
+    </div><!-- Envelope -->
+    <div class="animate-slide-up delay-200 mb-8">
+     <div class="relative w-80 h-56 md:w-96 md:h-64"><!-- Envelope Body -->
+      <div class="absolute inset-0 bg-gradient-to-br from-rose-50 to-pink-100 border-4 border-rose-300 rounded-lg shadow-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe0e6 100%);"></div><!-- Envelope Flap -->
+      <div id="envelope-flap" class="absolute inset-0 flex items-center justify-center transition-all duration-500" style="transform-style: preserve-3d;"><!-- Front of flap -->
+       <div class="absolute inset-0 bg-gradient-to-br from-rose-200 to-pink-200 border-4 border-rose-300 rounded-lg shadow-2xl flex items-center justify-center flex-col" style="transform: rotateX(0deg);">
+        <svg class="w-32 h-32 md:w-40 md:h-40 animate-pulse-glow" viewbox="0 0 24 24" fill="#ff4757"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <p class="font-romantic text-xl text-rose-500 mt-2">💌</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Open Button -->
+    <div class="animate-slide-up delay-400"><button id="open-letter-btn" class="love-button bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-300"> <span class="flex items-center gap-2">
+       <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+       </svg> Buka Surat Cintaku </span> </button>
+    </div><!-- Footer -->
+    <div class="animate-slide-up delay-700 mt-12 text-center">
+     <div class="flex justify-center gap-2"><span class="text-3xl animate-float">💕</span> <span class="text-3xl animate-heart-beat">❤️</span> <span class="text-3xl animate-float-delay">💕</span>
+     </div>
+    </div>
+   </div><!-- Floating Music Player Card -->
+   <div id="music-player-floating"
+     class="fixed bottom-6 left-6 z-40 animate-slide-up-player"
+     style="max-width: 90%; width: 360px;">
+    <div class="music-player-card rounded-2xl p-5 shadow-2xl">
+     <audio id="audio-player" preload="metadata" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicturestyle="display:none;"><source src="music.mp3" type="audio/mpeg">
+     </audio><!-- Player Header -->
+     <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+       <svg class="w-4 h-4 text-rose-500" viewbox="0 0 24 24" fill="currentColor"><path d="M12 3v9.28c-.47-.46-1.12-.74-1.84-.74-1.49 0-2.7 1.21-2.7 2.7s1.21 2.7 2.7 2.7 2.7-1.21 2.7-2.7V7h4V3h-4z" />
+       </svg><span class="text-rose-600 font-romantic text-sm">🎵 Lagu Untukmu</span>
+      </div><button id="toggle-player" class="text-rose-400 hover:text-rose-600 text-xl transition-colors">
+       <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+       </svg></button>
+     </div><!-- Player Controls -->
+     <div class="flex items-center justify-between gap-2"><!-- Play/Pause -->
+      <div class="flex gap-2"><button id="floating-play-btn" class="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white p-2.5 rounded-full transition-all transform hover:scale-110">
+        <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" />
+        </svg></button> <button id="floating-pause-btn" class="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white p-2.5 rounded-full transition-all transform hover:scale-110 hidden">
+        <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+        </svg></button>
+      </div><!-- Progress Bar -->
+      <div class="flex-1 flex items-center gap-2"><span id="floating-current-time" class="text-xs text-rose-600 font-semibold w-7">0:00</span> <input id="floating-progress-bar" type="range" min="0" max="100" value="0" class="flex-1 h-1 bg-rose-200 rounded-full appearance-none cursor-pointer" style="accent-color: #ff4757;"> <span id="floating-duration" class="text-xs text-rose-600 font-semibold w-7">0:00</span>
+      </div><!-- Volume -->
+      <div class="flex items-center gap-1">
+       <svg class="w-4 h-4 text-rose-400" viewbox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.26 2.5-4.02z" />
+       </svg><input id="volume-control" type="range" min="0" max="100" value="70" class="w-12 h-1 bg-rose-200 rounded-full appearance-none cursor-pointer" style="accent-color: #ff4757;">
+      </div>
+     </div>
+    </div>
+   </div><!-- Music Player Modal (Detail View) -->
+   <div id="music-player-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full transform scale-0 transition-transform duration-500" id="music-modal-content">
+     <div class="flex justify-between items-center mb-6">
+      <h3 class="font-romantic text-2xl text-rose-500">🎵 Musik Untuk Kamu</h3><button id="close-music-btn" class="text-gray-500 hover:text-gray-700 text-2xl">
+       <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+       </svg></button>
+     </div>
+     <div class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-6"><!-- Custom Player Controls -->
+      <div class="flex items-center justify-center gap-4 mb-4"><button id="play-btn" class="bg-rose-400 hover:bg-rose-500 text-white p-3 rounded-full transition-colors">
+        <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" />
+        </svg></button> <button id="pause-btn" class="bg-rose-400 hover:bg-rose-500 text-white p-3 rounded-full transition-colors hidden">
+        <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+        </svg></button>
+       <div class="flex-1 flex items-center gap-2"><span id="current-time" class="text-xs text-rose-600 w-8">0:00</span> <input id="progress-bar" type="range" min="0" max="100" value="0" class="flex-1 h-2 bg-rose-200 rounded-lg appearance-none cursor-pointer" style="accent-color: #ff4757;"> <span id="duration" class="text-xs text-rose-600 w-8">0:00</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-rose-600" viewbox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.26 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+        </svg><input id="volume-control-modal" type="range" min="0" max="100" value="70" class="w-20 h-2 bg-rose-200 rounded-lg appearance-none cursor-pointer" style="accent-color: #ff4757;">
+       </div>
+      </div>
+      <div class="flex justify-center gap-4 text-3xl"><span class="animate-float">🎶</span> <span class="animate-heart-beat">💕</span> <span class="animate-float-delay">🎶</span>
+      </div>
+     </div>
+     <p class="text-center text-rose-400 text-sm mt-4">Dengarkan sambil menikmati surat cintaku 💕</p>
+    </div>
+   </div><!-- Card Screen -->
+   <div id="card-screen" class="relative z-10 min-h-full flex flex-col items-center justify-center px-4 py-8 hidden"><!-- Main Heart Icon -->
+    <div class="animate-slide-up mb-6">
+     <svg class="w-20 h-20 md:w-24 md:h-24 animate-pulse-glow" viewbox="0 0 24 24" fill="#ff4757"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+     </svg>
+    </div><!-- Title -->
+    <div class="text-center animate-slide-up delay-200 mb-8">
+     <p class="text-lg md:text-xl text-rose-400 mb-2">Special For You</p>
+     <h1 id="main-title" class="font-romantic text-5xl md:text-7xl lg:text-8xl gradient-text font-bold">Dhini Oktavia Afantika</h1>
+     <div class="flex justify-center items-center gap-2 mt-4"><span class="text-2xl">✨</span> <span class="text-rose-400 text-lg">My Everything</span> <span class="text-2xl">✨</span>
+     </div>
+    </div><!-- Love Card -->
+    <div class="card-container animate-slide-up delay-400 w-full max-w-2xl">
+     <div class="card bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 mx-4 border border-rose-100"><!-- Decorative Hearts -->
+      <div class="flex justify-center gap-4 mb-6"><span class="text-3xl animate-float">💕</span> <span class="text-4xl animate-heart-beat">❤️</span> <span class="text-3xl animate-float-delay">💕</span>
+      </div><!-- Love Message -->
+      <div class="text-center space-y-6">
+       <p id="love-message" class="text-gray-700 text-lg md:text-xl leading-relaxed">Setiap hari bersamamu adalah anugerah terindah. Kamu adalah alasan di balik senyumku, penyemangat di setiap langkahku, dan cinta dalam setiap detak jantungku. Terima kasih sudah menjadi bagian terindah dalam hidupku. 💝</p>
+       <div class="py-4">
+        <svg class="w-16 h-16 mx-auto text-rose-300" viewbox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+        </svg>
+       </div><!-- Reasons to Love -->
+       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+        <div class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-4 transform hover:scale-105 transition-transform"><span class="text-3xl mb-2 block">😍</span>
+         <p class="text-rose-600 font-medium">Very Beautiful</p>
+        </div>
+        <div class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-4 transform hover:scale-105 transition-transform"><span class="text-3xl mb-2 block">💫</span>
+         <p class="text-rose-600 font-medium">Full Of Love For You</p>
+        </div>
+        <div class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-4 transform hover:scale-105 transition-transform"><span class="text-3xl mb-2 block">🦋</span>
+         <p class="text-rose-600 font-medium">Always Makes Me Happy</p>
+        </div>
+       </div><!-- Closing Message -->
+       <p id="closing-message" class="font-romantic text-2xl md:text-3xl text-rose-500 mt-6">Aku mencintaimu, selamanya... 💗</p>
+      </div><!-- Love Button -->
+      <div class="mt-8 text-center"><button id="love-btn" class="love-button bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-300"> <span class="flex items-center gap-2">
+         <svg class="w-6 h-6 animate-heart-beat" viewbox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+         </svg> Klik untuk Surprise! </span> </button>
+      </div><!-- Next Button -->
+      <div class="mt-6 text-center"><button id="next-btn" class="love-button bg-gradient-to-r from-pink-300 to-rose-300 hover:from-pink-400 hover:to-rose-400 text-white font-semibold py-3 px-8 rounded-full text-md shadow-lg transform hover:scale-105 transition-all duration-300"> <span class="flex items-center justify-center gap-2">
+         <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+         </svg> Lanjut ke Galeri </span> </button>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <div class="animate-slide-up delay-700 mt-8 text-center">
+     <p class="text-rose-400 text-sm">Made with love just for you</p>
+     <div class="flex justify-center gap-2 mt-2"><span>🌹</span> <span>💝</span> <span>🌹</span>
+     </div>
+    </div>
+   </div><!-- Photo Gallery Screen -->
+   <div id="photo-screen" class="relative z-10 min-h-full flex flex-col items-center justify-center px-4 py-8 hidden"><!-- Back Button -->
+    <div class="absolute top-6 left-6 z-20"><button id="back-btn" class="bg-rose-400 hover:bg-rose-500 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-2">
+      <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+      </svg> Kembali </button>
+    </div><!-- Photo Upload Section -->
+    <div id="upload-section" class="w-full"><!-- Photo Title -->
+     <div class="animate-slide-up text-center mb-8">
+      <h1 class="font-romantic text-4xl md:text-5xl text-rose-500 mb-2">Galeri Kenangan</h1>
+      <p class="text-rose-400 text-lg">Pilih 3-10 foto terindah kita 📸✨</p>
+     </div><!-- Photo Card -->
+     <div class="card-container animate-slide-up delay-200 w-full max-w-4xl mx-auto">
+      <div class="card bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 mx-4 border border-rose-100"><!-- Photos Grid -->
+       <div id="photos-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"><!-- Photos will be added here dynamically -->
+       </div><!-- Upload Counter -->
+       <div id="upload-counter" class="text-center mb-6">
+        <p class="text-rose-600 font-semibold text-lg">Foto: <span id="photo-count">0</span>/3</p>
+        <p class="text-rose-400 text-sm">3 foto untuk kolase vertikal yang indah ✨</p>
+       </div><!-- Add Photo Button --> <button id="add-photo-btn" class="w-full love-button bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-300 mb-6"> <span class="flex items-center justify-center gap-2">
+         <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+         </svg> Tambah Foto (Max 3) </span> </button> <!-- File Input (Hidden) --> <input id="photo-input" type="file" accept="image/*" class="hidden"> <!-- Clear All Button --> <button id="clear-all-btn" class="w-full love-button bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-semibold py-3 px-10 rounded-full text-md shadow-lg transform hover:scale-105 transition-all duration-300 hidden"> <span class="flex items-center justify-center gap-2">
+         <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z" />
+         </svg> Hapus Semua Foto </span> </button> <!-- Navigation Buttons -->
+       <div class="flex gap-4 justify-center mt-6"><button id="back-card-btn" class="love-button bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-semibold py-3 px-8 rounded-full text-md shadow-lg transform hover:scale-105 transition-all duration-300"> <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg> Kembali </span> </button> <button id="next-collage-btn" class="love-button bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-full text-md shadow-lg transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled> <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+          </svg> Lihat Kolase (3 Foto) </span> </button>
+       </div>
+      </div>
+     </div><!-- Footer -->
+     <div class="animate-slide-up delay-700 mt-8 text-center">
+      <p class="text-rose-400 text-sm">Upload foto berkualitas untuk kolase terbaik 💖</p>
+     </div>
+    </div><!-- Collage Display Section -->
+    <div id="collage-section" class="w-full hidden"><!-- Collage Title -->
+     <div class="animate-slide-up text-center mb-8">
+      <h1 class="font-romantic text-4xl md:text-5xl text-rose-500 mb-2">Kolase Kenangan Kita</h1>
+      <p class="text-rose-400 text-lg">Momen indah yang tak terlupakan ✨</p>
+     </div><!-- Collage Card -->
+     <div class="card-container animate-slide-up delay-200 w-full max-w-5xl mx-auto">
+      <div class="card bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 mx-4 border border-rose-100"><!-- Collage Display -->
+       <div id="collage-display" class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl overflow-hidden shadow-lg mb-8"><!-- Collage will be rendered here -->
+       </div><!-- Message -->
+       <div class="text-center bg-rose-50 rounded-xl p-4 mb-6">
+        <p class="text-rose-600 font-semibold">Kolase indah dari momen-momen berharga kita</p>
+       </div><!-- Navigation Buttons -->
+       <div class="flex gap-4 justify-center"><button id="back-collage-btn" class="love-button bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-semibold py-3 px-8 rounded-full text-md shadow-lg transform hover:scale-105 transition-all duration-300"> <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg> Kembali Edit </span> </button> <button id="save-collage-btn" class="love-button bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-full text-md shadow-lg transform hover:scale-105 transition-all duration-300"> <span class="flex items-center gap-2">
+          <svg class="w-5 h-5" viewbox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+          </svg> Simpan Kolase </span> </button>
+       </div>
+      </div>
+     </div><!-- Footer -->
+     <div class="animate-slide-up delay-700 mt-8 text-center">
+      <p class="text-rose-400 text-sm">Kolase berhasil disimpan di galeri kamu 💖</p>
+     </div>
+    </div>
+   </div><!-- Surprise Modal -->
+   <div id="surprise-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-8 md:p-12 max-w-lg w-full text-center transform scale-0 transition-transform duration-500" id="modal-content">
+     <div class="text-6xl mb-4 animate-heart-beat">
+      💖
+     </div>
+     <h2 class="font-romantic text-4xl md:text-5xl gradient-text mb-4">Aku Sayang Kamu!</h2>
+     <p class="text-gray-600 text-lg mb-6">Dhini, kamu adalah hadiah terindah dalam hidupku. Semoga hari-harimu selalu dipenuhi kebahagiaan! 🌸</p>
+     <div class="flex justify-center gap-4 text-4xl mb-6"><span class="animate-float">🌷</span> <span class="animate-heart-beat">💕</span> <span class="animate-float-delay">🌷</span>
+     </div><button id="close-modal" class="bg-rose-400 hover:bg-rose-500 text-white font-semibold py-3 px-8 rounded-full transition-colors"> Terima Kasih Sayangku 💝 </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Music Player Elements
+    const audioPlayer = document.getElementById('audio-player');
+    const floatingPlayBtn = document.getElementById('floating-play-btn');
+    const floatingPauseBtn = document.getElementById('floating-pause-btn');
+    const floatingProgressBar = document.getElementById('floating-progress-bar');
+    const floatingCurrentTime = document.getElementById('floating-current-time');
+    const floatingDuration = document.getElementById('floating-duration');
+    const volumeControl = document.getElementById('volume-control');
+    const togglePlayerBtn = document.getElementById('toggle-player');
+    const musicPlayerModal = document.getElementById('music-player-modal');
+    const musicModalContent = document.getElementById('music-modal-content');
+    
+    // Modal player elements
+    const playBtn = document.getElementById('play-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const volumeControlModal = document.getElementById('volume-control-modal');
+    const closeMusicBtn = document.getElementById('close-music-btn');
+
+    function formatTime(seconds) {
+      if (!seconds || isNaN(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function updateAllPlayButtons(isPlaying) {
+      if (isPlaying) {
+        floatingPlayBtn.classList.add('hidden');
+        floatingPauseBtn.classList.remove('hidden');
+        playBtn?.classList.add('hidden');
+        pauseBtn?.classList.remove('hidden');
+      } else {
+        floatingPlayBtn.classList.remove('hidden');
+        floatingPauseBtn.classList.add('hidden');
+        playBtn?.classList.remove('hidden');
+        pauseBtn?.classList.add('hidden');
+      }
+    }
+
+    // Floating player play/pause
+    floatingPlayBtn.addEventListener('click', () => {
+      audioPlayer.play();
+      updateAllPlayButtons(true);
+    });
+
+    floatingPauseBtn.addEventListener('click', () => {
+      audioPlayer.pause();
+      updateAllPlayButtons(false);
+    });
+
+    // Modal player play/pause
+    if (playBtn) {
+      playBtn.addEventListener('click', () => {
+        audioPlayer.play();
+        updateAllPlayButtons(true);
+      });
+    }
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', () => {
+        audioPlayer.pause();
+        updateAllPlayButtons(false);
+      });
+    }
+
+    // Audio player events
+    if (audioPlayer) {
+      audioPlayer.addEventListener('loadedmetadata', () => {
+        const time = formatTime(audioPlayer.duration);
+        floatingDuration.textContent = time;
+        durationEl.textContent = time;
+      });
+
+      audioPlayer.addEventListener('timeupdate', () => {
+        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100 || 0;
+        floatingProgressBar.value = progress;
+        progressBar.value = progress;
+        const time = formatTime(audioPlayer.currentTime);
+        floatingCurrentTime.textContent = time;
+        currentTimeEl.textContent = time;
+      });
+
+      audioPlayer.addEventListener('ended', () => {
+        updateAllPlayButtons(false);
+      });
+    }
+
+    // Progress bars
+    if (floatingProgressBar) {
+      floatingProgressBar.addEventListener('input', (e) => {
+        audioPlayer.currentTime = (e.target.value / 100) * audioPlayer.duration;
+      });
+    }
+
+    if (progressBar) {
+      progressBar.addEventListener('input', (e) => {
+        audioPlayer.currentTime = (e.target.value / 100) * audioPlayer.duration;
+      });
+    }
+
+    // Volume controls
+    if (volumeControl) {
+      volumeControl.addEventListener('input', (e) => {
+        audioPlayer.volume = e.target.value / 100;
+      });
+      audioPlayer.volume = 0.7;
+    }
+
+    if (volumeControlModal) {
+      volumeControlModal.addEventListener('input', (e) => {
+        audioPlayer.volume = e.target.value / 100;
+      });
+    }
+
+    // Toggle player modal
+    if (togglePlayerBtn) {
+      togglePlayerBtn.addEventListener('click', () => {
+        musicPlayerModal.classList.remove('hidden');
+        musicPlayerModal.classList.add('flex');
+        setTimeout(() => {
+          musicModalContent.style.transform = 'scale(1)';
+        }, 100);
+      });
+    }
+
+    // Close modal
+    if (closeMusicBtn) {
+      closeMusicBtn.addEventListener('click', () => {
+        musicModalContent.style.transform = 'scale(0)';
+        setTimeout(() => {
+          musicPlayerModal.classList.add('hidden');
+          musicPlayerModal.classList.remove('flex');
+        }, 300);
+      });
+    }
+
+    if (musicPlayerModal) {
+      musicPlayerModal.addEventListener('click', (e) => {
+        if (e.target === musicPlayerModal) {
+          musicModalContent.style.transform = 'scale(0)';
+          setTimeout(() => {
+            musicPlayerModal.classList.add('hidden');
+            musicPlayerModal.classList.remove('flex');
+          }, 300);
+        }
+      });
+    }
+
+    // Card Follow Mouse Effect
+    const card = document.querySelector('.card');
+    const cardContainer = document.querySelector('.card-container');
+
+    if (cardContainer) {
+      cardContainer.addEventListener('mousemove', (e) => {
+        if (!card || !cardContainer) return;
+
+        const rect = cardContainer.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        const rotateX = (mouseY - centerY) / 60;
+        const rotateY = (mouseX - centerX) / 60;
+
+        card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      cardContainer.addEventListener('mouseleave', () => {
+        if (card) {
+          card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        }
+      });
+    }
+
+    // Envelope Opening Animation
+    const openLetterBtn = document.getElementById('open-letter-btn');
+    const envelopeScreen = document.getElementById('envelope-screen');
+    const cardScreen = document.getElementById('card-screen');
+    const photoScreen = document.getElementById('photo-screen');
+    const envelopeFlap = document.getElementById('envelope-flap');
+
+    if (openLetterBtn) {
+      openLetterBtn.addEventListener('click', () => {
+        if (envelopeFlap) {
+          envelopeFlap.style.transform = 'rotateX(90deg) translateZ(0)';
+          envelopeFlap.style.opacity = '0';
+        }
+
+        setTimeout(() => {
+          envelopeScreen.classList.add('hidden');
+          cardScreen.classList.remove('hidden');
+        }, 500);
+      });
+    }
+
+    // Navigation between screens
+    const nextBtn = document.getElementById('next-btn');
+    const backBtn = document.getElementById('back-btn');
+    const backCardBtn = document.getElementById('back-card-btn');
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        cardScreen.classList.add('hidden');
+        photoScreen.classList.remove('hidden');
+      });
+    }
+
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        photoScreen.classList.add('hidden');
+        cardScreen.classList.remove('hidden');
+      });
+    }
+
+    if (backCardBtn) {
+      backCardBtn.addEventListener('click', () => {
+        photoScreen.classList.add('hidden');
+        cardScreen.classList.remove('hidden');
+      });
+    }
+
+    // Multi-Photo Upload Functionality
+    let uploadedPhotos = [];
+    const photoInput = document.getElementById('photo-input');
+    const addPhotoBtn = document.getElementById('add-photo-btn');
+    const clearAllBtn = document.getElementById('clear-all-btn');
+    const photosGrid = document.getElementById('photos-grid');
+    const photoCount = document.getElementById('photo-count');
+    const nextCollageBtn = document.getElementById('next-collage-btn');
+    const uploadSection = document.getElementById('upload-section');
+    const collageSection = document.getElementById('collage-section');
+    const backCollageBtn = document.getElementById('back-collage-btn');
+    const saveCollageBtn = document.getElementById('save-collage-btn');
+    const collageDisplay = document.getElementById('collage-display');
+
+    function updatePhotoCount() {
+      photoCount.textContent = uploadedPhotos.length;
+      clearAllBtn.classList.toggle('hidden', uploadedPhotos.length === 0);
+      nextCollageBtn.disabled = uploadedPhotos.length !== 3;
+    }
+
+    function renderPhotosGrid() {
+      photosGrid.innerHTML = '';
+      uploadedPhotos.forEach((photo, index) => {
+        const photoItem = document.createElement('div');
+        photoItem.className = 'relative group rounded-lg overflow-hidden';
+        photoItem.innerHTML = `
+          <img src="${photo}" alt="Photo ${index + 1}" class="w-full h-32 object-cover">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <button class="remove-photo-item bg-red-500 hover:bg-red-600 text-white p-2 rounded-full" data-index="${index}">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+            </button>
+          </div>
+        `;
+        photosGrid.appendChild(photoItem);
+      });
+
+      document.querySelectorAll('.remove-photo-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const index = parseInt(e.currentTarget.dataset.index);
+          uploadedPhotos.splice(index, 1);
+          updatePhotoCount();
+          renderPhotosGrid();
+        });
+      });
+    }
+
+    function generateCollage() {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 500 900');
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', 'auto');
+      svg.setAttribute('style', 'max-width: 400px; margin: 0 auto; display: block;');
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+      gradient.setAttribute('id', 'bgGradient');
+      gradient.setAttribute('x1', '0%');
+      gradient.setAttribute('y1', '0%');
+      gradient.setAttribute('x2', '0%');
+      gradient.setAttribute('y2', '100%');
+      
+      const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      stop1.setAttribute('offset', '0%');
+      stop1.setAttribute('stop-color', '#fff5f5');
+      
+      const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      stop2.setAttribute('offset', '100%');
+      stop2.setAttribute('stop-color', '#ffe0e6');
+      
+      gradient.appendChild(stop1);
+      gradient.appendChild(stop2);
+      defs.appendChild(gradient);
+      svg.appendChild(defs);
+
+      const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bgRect.setAttribute('width', '500');
+      bgRect.setAttribute('height', '900');
+      bgRect.setAttribute('fill', 'url(#bgGradient)');
+      svg.appendChild(bgRect);
+
+      const photoPositions = [
+        { x: 50, y: 40, width: 400, height: 240 },
+        { x: 50, y: 340, width: 400, height: 240 },
+        { x: 50, y: 640, width: 400, height: 240 }
+      ];
+
+      uploadedPhotos.forEach((photoSrc, index) => {
+        if (index < 3 && photoPositions[index]) {
+          const pos = photoPositions[index];
+
+          const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+          image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', photoSrc);
+          image.setAttribute('x', pos.x);
+          image.setAttribute('y', pos.y);
+          image.setAttribute('width', pos.width);
+          image.setAttribute('height', pos.height);
+          image.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+          svg.appendChild(image);
+
+          const border = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          border.setAttribute('x', pos.x);
+          border.setAttribute('y', pos.y);
+          border.setAttribute('width', pos.width);
+          border.setAttribute('height', pos.height);
+          border.setAttribute('fill', 'none');
+          border.setAttribute('stroke', '#ffb8c6');
+          border.setAttribute('stroke-width', '5');
+          svg.appendChild(border);
+        }
+      });
+
+      return svg;
+    }
+
+    if (addPhotoBtn) {
+      addPhotoBtn.addEventListener('click', () => {
+        if (uploadedPhotos.length < 3) {
+          photoInput.click();
+        }
+      });
+    }
+
+    if (photoInput) {
+      photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            uploadedPhotos.push(event.target.result);
+            updatePhotoCount();
+            renderPhotosGrid();
+            photoInput.value = '';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener('click', () => {
+        uploadedPhotos = [];
+        updatePhotoCount();
+        renderPhotosGrid();
+      });
+    }
+
+    if (nextCollageBtn) {
+      nextCollageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (uploadedPhotos.length === 3) {
+          collageDisplay.innerHTML = '';
+          const collage = generateCollage();
+          collageDisplay.appendChild(collage);
+          uploadSection.classList.add('hidden');
+          collageSection.classList.remove('hidden');
+        }
+      });
+    }
+
+    if (backCollageBtn) {
+      backCollageBtn.addEventListener('click', () => {
+        collageSection.classList.add('hidden');
+        uploadSection.classList.remove('hidden');
+      });
+    }
+
+    if (saveCollageBtn) {
+      saveCollageBtn.addEventListener('click', () => {
+        alert('Kolase berhasil disimpan! Terima kasih sayang 💖');
+      });
+    }
+  </script>
+  <script>
+    const defaultConfig = {
+      main_title: "Dhini Oktavia Afantika",
+      love_message: "Setiap hari bersamamu selalu terasa berarti. Kamu memberi banyak alasan untuk tersenyum dan semangat menjalani hari. Terima kasih sudah menjadi bagian penting dalam hidupku. 💝",
+      closing_message: "Aku mencintaimu, selamanya... 💗"
+    };
+
+    const mainTitle = document.getElementById('main-title');
+    const loveMessage = document.getElementById('love-message');
+    const closingMessage = document.getElementById('closing-message');
+    const loveBtn = document.getElementById('love-btn');
+    const surpriseModal = document.getElementById('surprise-modal');
+    const modalContent = document.getElementById('modal-content');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function showSurprise() {
+      surpriseModal.classList.remove('hidden');
+      surpriseModal.classList.add('flex');
+      setTimeout(() => {
+        modalContent.style.transform = 'scale(1)';
+      }, 100);
+      createConfetti();
+    }
+
+    function hideSurprise() {
+      modalContent.style.transform = 'scale(0)';
+      setTimeout(() => {
+        surpriseModal.classList.add('hidden');
+        surpriseModal.classList.remove('flex');
+      }, 500);
+    }
+
+    function createConfetti() {
+      const colors = ['#ff6b81', '#ff4757', '#ffb8c6', '#ffd1dc', '#fff'];
+      const confettiCount = 50;
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+          position: fixed;
+          width: ${Math.random() * 10 + 5}px;
+          height: ${Math.random() * 10 + 5}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          left: ${Math.random() * 100}vw;
+          top: -20px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+          pointer-events: none;
+          z-index: 100;
+          animation: fall ${Math.random() * 3 + 2}s linear forwards;
+        `;
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 5000);
+      }
+      
+      if (!document.getElementById('confetti-style')) {
+        const style = document.createElement('style');
+        style.id = 'confetti-style';
+        style.textContent = `
+          @keyframes fall {
+            to {
+              transform: translateY(100vh) rotate(720deg);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+
+    loveBtn.addEventListener('click', showSurprise);
+    closeModalBtn.addEventListener('click', hideSurprise);
+    surpriseModal.addEventListener('click', (e) => {
+      if (e.target === surpriseModal) hideSurprise();
+    });
+
+    async function onConfigChange(config) {
+      mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      loveMessage.textContent = config.love_message || defaultConfig.love_message;
+      closingMessage.textContent = config.closing_message || defaultConfig.closing_message;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["love_message", config.love_message || defaultConfig.love_message],
+        ["closing_message", config.closing_message || defaultConfig.closing_message]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c5d5044b584b5e2',t:'MTc2OTczNzc3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
